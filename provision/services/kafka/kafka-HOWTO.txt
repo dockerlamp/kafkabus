@@ -1,0 +1,26 @@
+1. how to run > 1 broker
+	- run docker-compose
+	- wait untill all containers are up & running
+	- use scale to bring up more kafka containers
+	- login to random kafka container
+	- add partitions to existing topic
+	- all new producers & consumers containers recognize new brokers (existing ones must be reloaded)
+
+
+
+# login to broker container
+docker exec -i container_id bash
+
+# kafka scripts
+/opt/kafka/bin/
+
+
+# view topics and its details
+./kafka-topics.sh --zookeeper zookeeper:2181 --describe
+
+# add partitions to existing topic
+./kafka-topics.sh --alter --zookeeper zookeeper:2181 --topic py_topic --partitions 4
+(existing producer need to be restarted to get new partition list)
+
+# delete existing topic
+./kafka-topics.sh --zookeeper zookeeper:2181 --topic py_topic --delete
