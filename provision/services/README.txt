@@ -3,17 +3,17 @@ INFO ustawiono RAM=4096
 
 <=== aplikacja kafkabus ===>
 		 
-	INFO Aktualna implementacja konsumera i producera (python) produkuje wiadomoœci w
+	INFO Aktualna implementacja konsumera i producera (python) produkuje wiadomoï¿½ci w
 		trybie pub/sub.
 
-	1. uruchom aplikacjê docker-compose
+	1. uruchom aplikacjï¿½ docker-compose
 
-	2. brokery kafki nie s¹ "od razu" gotowe do obs³ugiwania producerów i konsumerów
-	   pomimo i¿ kontener jest ju¿ uruchomiony (kolejnoœæ uruchamiania kontenerów jak¹ 
-	   okreœla plik docker-compose nie przydaje siê na t¹ okolicznoœæ).
+	2. brokery kafki nie sï¿½ "od razu" gotowe do obsï¿½ugiwania producerï¿½w i konsumerï¿½w
+	   pomimo iï¿½ kontener jest juï¿½ uruchomiony (kolejnoï¿½ï¿½ uruchamiania kontenerï¿½w jakï¿½ 
+	   okreï¿½la plik docker-compose nie przydaje siï¿½ na tï¿½ okolicznoï¿½ï¿½).
 	   
-	   Bezpoœrednim nastêpstwem "przypad³oœci" opisanej wy¿ej mo¿e byæ wysypanie siê
-	   startuj¹cego producera i konsumera (rzuca wyj¹tkiem jak przyk³adowo poni¿ej).
+	   Bezpoï¿½rednim nastï¿½pstwem "przypadï¿½oï¿½ci" opisanej wyï¿½ej moï¿½e byï¿½ wysypanie siï¿½
+	   startujï¿½cego producera i konsumera (rzuca wyjï¿½tkiem jak przykï¿½adowo poniï¿½ej).
 
 		consumer_1   | consumer settings: topic is py_topic, bootstrap srv is 172.18.0.2:9092
 		consumer_1   | Traceback (most recent call last):
@@ -27,22 +27,22 @@ INFO ustawiono RAM=4096
 		consumer_1   |     raise Errors.NoBrokersAvailable()
 		consumer_1   | kafka.errors.NoBrokersAvailable: NoBrokersAvailable
 	
-	   Kolejno przeskalowane producery ( za pomoc¹ docker-compose scale producer=n) i konsumery uruchomi¹ siê "normalnie" i po³¹cz¹ siê do klastra.
+	   Kolejno przeskalowane producery ( za pomocï¿½ docker-compose scale producer=n) i konsumery uruchomiï¿½ siï¿½ "normalnie" i poï¿½ï¿½czï¿½ siï¿½ do klastra.
 	
-	3. Domyœlnie uruchamiany jest jeden broker w klastrze kafki. Po przeskalowaniu kafki (dodanie 
-	   brokerów kafki za pomoc¹ docker-compose scale producer=n) producery i consumery ³¹cz¹ siê 
+	3. Domyï¿½lnie uruchamiany jest jeden broker w klastrze kafki. Po przeskalowaniu kafki (dodanie 
+	   brokerï¿½w kafki za pomocï¿½ docker-compose scale producer=n) producery i consumery ï¿½ï¿½czï¿½ siï¿½ 
 	   tylko do pierwszego brokera (uruchomionego przy starcie docker-compose).
 	   
-	   Aby producery i konsumery zaczê³y korzystaæ z nowo dodanych brokerów w klastrze kafki nale¿y
-	   zmodyfikowaæ istniej¹cy TOPIC "py_topic" w kafce. Instrukcja poni¿ej.:
+	   Aby producery i konsumery zaczï¿½y korzystaï¿½ z nowo dodanych brokerï¿½w w klastrze kafki naleï¿½y
+	   zmodyfikowaï¿½ istniejï¿½cy TOPIC "py_topic" w kafce. Instrukcja poniï¿½ej.:
 	   
-	   3.a. zaloguj siê do dowolnego, uruchomionego kontenera z brokerem kafki
+	   3.a. zaloguj siï¿½ do dowolnego, uruchomionego kontenera z brokerem kafki
 				docker exec -i 17c7ec2118f4 bash
-	   3.b. wejdz do kat. ze skryptami do zarz¹dzania kafk¹
+	   3.b. wejdz do kat. ze skryptami do zarzï¿½dzania kafkï¿½
 				cd /opt/kafka/bin
-	   3.c. podziel istniej¹cy TOPIC "py_topic" na wiêcej partycji (partycje zostan¹ podzielone miêdzy istniej¹ce brokery w kastrze)
+	   3.c. podziel istniejï¿½cy TOPIC "py_topic" na wiï¿½cej partycji (partycje zostanï¿½ podzielone miï¿½dzy istniejï¿½ce brokery w kastrze)
 				./kafka-topics.sh --alter --zookeeper zookeeper:2181 --topic py_topic --partitions 4
-	   3.d. sprawdz czy TOPIC "py_topic" zosta³ podzielony na partycjê miêdzy nowe brokery
+	   3.d. sprawdz czy TOPIC "py_topic" zostaï¿½ podzielony na partycjï¿½ miï¿½dzy nowe brokery
 				./kafka-topics.sh --zookeeper zookeeper:2181 --describe
 				
 				przykladowy rezultat:
@@ -51,11 +51,11 @@ INFO ustawiono RAM=4096
 						Topic: py_topic Partition: 1    Leader: 1002    Replicas: 1002  Isr: 1002
 						Topic: py_topic Partition: 2    Leader: 1001    Replicas: 1001  Isr: 1001
 						Topic: py_topic Partition: 3    Leader: 1002    Replicas: 1002  Isr: 1002
-		3.e. aktualnie uruchomione producery i konsumery "nie wiedz¹" o nowych partycjach
-			 (do oprogramowania po stronie producerów / konsumerów - zale¿ne od scenariusza - do ustalenia).
-		     Nowo uruchomione kontenery konsumerów i producerów bêd¹ ju¿ "widzia³y" nowe partycje (w ró¿nych brokerach).
+		3.e. aktualnie uruchomione producery i konsumery "nie wiedzï¿½" o nowych partycjach
+			 (do oprogramowania po stronie producerï¿½w / konsumerï¿½w - zaleï¿½ne od scenariusza - do ustalenia).
+		     Nowo uruchomione kontenery konsumerï¿½w i producerï¿½w bï¿½dï¿½ juï¿½ "widziaï¿½y" nowe partycje (w rï¿½nych brokerach).
 			 
-			 Przyk³adowy rezultat produkowania i konsumowania na wiêkszej iloœci brokerów w kafce.:
+			 Przykï¿½adowy rezultat produkowania i konsumowania na wiï¿½kszej iloï¿½ci brokerï¿½w w kafce.:
 			 
 				consumer_1   | recived random message no. 667962 from topic=py_topic, partition=2, key=None
 				producer_1   | sent random message no. 695019
@@ -86,10 +86,10 @@ INFO ustawiono RAM=4096
 				consumer_2   | recived random message no. 461426 from topic=py_topic, partition=2, key=None
 
 
-		TODO - automatyczne replikowanie istniej¹cych TOPIC`s (aktualnie TOPIC nie jest replikowany tylko partycjonowany).
-			 - testy konsumera i producera w ró¿nych konfiguracjach (queue, pub/sub, groups, replay, etc.)
-			 - obs³uga b³êdów w konsumerze i producerze (procedurê z pkt.3 na potrzeby testów mo¿na przenieœæ do producera,
-				czy to jest dobry pomys³ - do przedyskutowania...)
+		TODO - automatyczne replikowanie istniejï¿½cych TOPIC`s (aktualnie TOPIC nie jest replikowany tylko partycjonowany).
+			 - testy konsumera i producera w rï¿½nych konfiguracjach (queue, pub/sub, groups, replay, etc.)
+			 - obsï¿½uga bï¿½ï¿½dï¿½w w konsumerze i producerze (procedurï¿½ z pkt.3 na potrzeby testï¿½w moï¿½na przenieï¿½ï¿½ do producera,
+				czy to jest dobry pomysï¿½ - do przedyskutowania...)
 			 - test clienta node.js
-			 - testy typu zookeeper out of service lub broker crash w klastrze kafki i wp³yw na producery/konsumery
+			 - testy typu zookeeper out of service lub broker crash w klastrze kafki i wpï¿½yw na producery/konsumery
 			 - inne ?
