@@ -15,30 +15,23 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   py_producer:
-    image: python:alpine3.6
+    build: ./python-kafka-client
     volumes:
       - ../..:/app
     environment:
-      KAFKA_TOPIC_NAME: "py_topic"
-      BOOTSTRAP_SERVERS: "172.18.0.2:9092"
       MSG_SENT_FREQUENCY: "1.0"
-      PYTHONUNBUFFERED: 0
     working_dir: /app/microservices/python
-    command: sh -c "pip install kafka-python && python simple_producer.py"
+    command: sh -c "python simple_producer.py"
     restart: unless-stopped
     links: 
       - kafka
       - zookeeper
   py_consumer:
-    image: python:alpine3.6
+    build: ./python-kafka-client
     volumes:
       - ../..:/app
-    environment:
-      KAFKA_TOPIC_NAME: "py_topic"
-      BOOTSTRAP_SERVERS: "172.18.0.2:9092"
-      PYTHONUNBUFFERED: 0
     working_dir: /app/microservices/python
-    command: sh -c "pip install kafka-python && python simple_consumer.py"
+    command: sh -c "python simple_consumer.py"
     restart: unless-stopped
     links:
       - kafka
