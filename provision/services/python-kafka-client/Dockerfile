@@ -7,4 +7,6 @@ ENV KAFKA_TOPIC_NAME=$kafka_topic_name
 ENV BOOTSTRAP_SERVERS=$bootstrap_servers
 ENV PYTHONUNBUFFERED=0
 
-RUN pip install kafka-python
+RUN apk --update add gcc musl-dev linux-headers
+
+RUN pip install kafka-python psutil

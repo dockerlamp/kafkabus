@@ -24,6 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get update
         # narzedzia dodatkowe dla trybu developerskiego
         apt-get -y install curl git mc htop
+        # narzedzia dodatkowe dla watchmedo
+        apt-get -y install python-pip
+        pip install watchdog
         cd /vagrant/provision/vagrant/ && ./create-swap.sh
         # docker
         cd /vagrant/provision/docker && ./install-docker.sh
