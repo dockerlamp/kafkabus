@@ -21,7 +21,7 @@ services:
     environment:
       MSG_SENT_FREQUENCY: "1.0"
     working_dir: /app/microservices/python
-    command: sh -c "python pubsub_producer.py"
+    command: sh -c "python pubsub_producer_improved.py"
     restart: unless-stopped
     links: 
       - kafka
@@ -31,7 +31,7 @@ services:
     volumes:
       - ../..:/app
     working_dir: /app/microservices/python
-    command: sh -c "python pubsub_consumer.py"
+    command: sh -c "python pubsub_consumer_improved.py"
     restart: unless-stopped
     links:
       - kafka
