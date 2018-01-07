@@ -12,7 +12,7 @@ from kafka import KafkaConsumer
 
 
 # kafa specific settings
-TOPIC_NAME = 'pubsub_topic'
+TOPIC_NAME = 'example_topic'
 BOOTSTRAP_SERVERS = os.environ['BOOTSTRAP_SERVERS']
 AUTO_OFFSET_RESET = 'latest' # 'latest/earliest' -> default = latest
 

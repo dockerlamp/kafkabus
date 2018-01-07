@@ -18,7 +18,7 @@ MSG_NO_RANGE = (10**6, 2*10**6)
 DELAY = 2
 
 # kafa specific settings
-TOPIC_NAME = 'pubsub_topic'
+TOPIC_NAME = 'example_topic'
 BOOTSTRAP_SERVERS = os.environ['BOOTSTRAP_SERVERS']
 
 '''

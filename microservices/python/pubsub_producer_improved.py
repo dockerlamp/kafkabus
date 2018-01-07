@@ -16,7 +16,7 @@ PRODUCER_ID = random.randint(10**3, 2*10**3)
 MSG_NO_RANGE = (10**6, 2*10**6)
 DELAY = 2
 # kafa specific settings
-topic_name = 'pubsub_topic'
+topic_name = 'example_topic'
 extra_settings = {}
 
 channel = message_bus.produce_to(**extra_settings)

@@ -10,7 +10,7 @@ import json
 from kafka_bus import message_bus
 
 # kafka specific settings
-topic_name = 'pubsub_topic'
+topic_name = 'example_topic'
 extra_settings = {
     #'auto_offset_reset' = 'latest', # 'latest/earliest' -> default = latest
 }
