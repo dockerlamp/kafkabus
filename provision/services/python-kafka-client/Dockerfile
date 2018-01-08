@@ -9,4 +9,4 @@ ENV PYTHONUNBUFFERED=0
 
 RUN apk --update add gcc musl-dev linux-headers
 
-RUN pip install kafka-python psutil
+RUN pip install kafka-python psutil watchdog

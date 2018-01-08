@@ -21,7 +21,7 @@ services:
     environment:
       MSG_SENT_FREQUENCY: "1.0"
     working_dir: /app/microservices/python
-    command: sh -c "python watch.py python simple_producer.py"
+    command: sh -c "watchmedo auto-restart -p \"*.py\" -d . python simple_producer.py"
     restart: unless-stopped
     links: 
       - kafka
@@ -31,7 +31,7 @@ services:
     volumes:
       - ../..:/app
     working_dir: /app/microservices/python
-    command: sh -c "python watch.py python simple_consumer.py"
+    command: sh -c "watchmedo auto-restart -p \"*.py\" -d . python simple_consumer.py"
     restart: unless-stopped
     links:
       - kafka
