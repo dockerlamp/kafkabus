@@ -36,6 +36,16 @@ services:
     links:
       - kafka
       - zookeeper
+  py_group_consumer:
+    build: ./python-kafka-client
+    volumes:
+      - ../..:/app
+    working_dir: /app/microservices/python
+    command: sh -c "python group_consumer.py"
+    restart: unless-stopped
+    links:
+      - kafka
+      - zookeeper
   node_pubsub_producer:
     image: node:8.9.3
     environment:
