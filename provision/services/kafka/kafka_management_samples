@@ -1,0 +1,16 @@
+# add partitions to existing topic
+
+/opt/confluent-3.3.0/bin/kafka-topics --alter --zookeeper localhost:2181 --topic topic_name --partitions=3
+/opt/kafka/bin/kafka-topics.sh --alter --zookeeper zookeeper:2181 --topic topic_name --partitions=3
+
+# delete topic
+
+/opt/confluent-3.3.0/bin/kafka-topics --zookeeper localhost:2181 --delete --topic topic_name
+/opt/kafka/bin/kafka-topics.sh --zookeeper zookeeper:2181 --delete --topic topic_name
+
+
+# start venv python
+source .venvs/venv-python3.6-kafka/bin/activate
+
+python ~/workspace/coiner/ideas/simple_producer.py
+python ~/workspace/coiner/ideas/simple_consumer.py
