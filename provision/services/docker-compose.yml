@@ -14,50 +14,39 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: 192.168.56.130
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  py_pubsub_producer:
+  py_producer:
     build: ./python-kafka-client
     volumes:
       - ../..:/app
     environment:
       MSG_SENT_FREQUENCY: "1.0"
     working_dir: /app/microservices/python
-    command: sh -c "python pubsub_producer_improved.py"
+    command: sh -c "python producer.py"
     restart: unless-stopped
     links: 
       - kafka
       - zookeeper
-  py_pubsub_consumer:
+  py_consumer:
     build: ./python-kafka-client
     volumes:
       - ../..:/app
     working_dir: /app/microservices/python
-    command: sh -c "python pubsub_consumer_improved.py"
+    command: sh -c "python consumer.py"
     restart: unless-stopped
     links:
       - kafka
       - zookeeper
-  py_group_consumer:
-    build: ./python-kafka-client
-    volumes:
-      - ../..:/app
-    working_dir: /app/microservices/python
-    command: sh -c "python group_consumer.py"
-    restart: unless-stopped
-    links:
-      - kafka
-      - zookeeper
-  node_pubsub_producer:
+  node_producer:
     image: node:8.9.3
     environment:
       BOOTSTRAP_SERVERS: 172.18.0.2:9092
     volumes:
       - ../..:/app/src
       - ../../microservices/node/package.json:/app/package.json
-      # - ../../package-lock.json:/app/package-lock.json
       - nodecache:/root/.npm
       - nodemodules:/app/src/microservices/node/node_modules
     working_dir: /app/src/microservices/node
-    command: "node node_modules/nodemon/bin/nodemon.js -L -w . ./pubsub_producer.js"
+    command: "node node_modules/nodemon/bin/nodemon.js -L -w . ./producer.js"
     # command: ["npm","install"]
     restart: unless-stopped
     links:
