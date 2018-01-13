@@ -21,7 +21,7 @@ services:
     environment:
       MSG_SENT_FREQUENCY: "1.0"
     working_dir: /app/microservices/python
-    command: sh -c "python watch.py python producer.py"
+    command: sh -c "python watch.py python client.py"
     restart: unless-stopped
     links: 
       - kafka
