@@ -71,6 +71,9 @@ class DurableChannel(_BaseChannel):
     def push(self, message, flush = False):
         '''
         '''
+        if isinstance(self.name, (tuple, list)):
+            raise errors.MessageNotSendError('Only one channel name allowed for pushing data, got collection', self.name)
+
         future = _BaseChannel._shared_producer.send(topic= self.name, value= message)
         future.get() # get sent record or exception on failure
 
@@ -81,13 +84,20 @@ class DurableChannel(_BaseChannel):
     def pull(self):
         '''
         '''
+
+        if isinstance(self.name, str): self.name = [self.name]
+
         if not _BaseChannel._shared_consumer:
             _BaseChannel._shared_consumer = KafkaConsumer(bootstrap_servers=BOOTSTRAP_SERVERS, **KAFKA_CONSUMER_CONFIG)
         
+        if _BaseChannel._shared_consumer.subscription():
+            raise errors.MessageBusError('Cannot connect to channel %s, already connected to channels %s' % 
+                                                            (self.name, _BaseChannel._shared_consumer.topics())
+
         available_topics = _BaseChannel._shared_consumer.topics()
         if self.name not in available_topics:
             raise errors.ChannelNotFoundError(self.name+' not found')
-        _BaseChannel._shared_consumer.subscribe(topics = [self.name])
+        _BaseChannel._shared_consumer.subscribe(topics = self.name)
 
         return _BaseChannel._shared_consumer
 
