@@ -1,5 +1,5 @@
 {
-	"bootstrap_servers" : "localhost:9092",
+	"bootstrap_servers" : "172.18.0.2:9092",
 	"channels" : {
 		"container_commands" : {
 			"topic" : "container_commands",
