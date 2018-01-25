@@ -1,0 +1,11 @@
+{
+	"handler.container.createContainer" : {
+		"event_names" : ["event.container.containerCreated"]
+	},
+	"handler.container.addEnviron" : {
+		"event_names" : ["event.container.environAdded"]
+	},
+	"handler.notifyUser" : {
+		"event_names" : []
+	}
+}

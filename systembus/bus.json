@@ -1,0 +1,15 @@
+{
+	"bootstrap_servers" : "localhost:9092",
+	"channels" : {
+		"container_commands" : {
+			"topic" : "container_commands",
+			"group_id" : "alfa",
+			"auto_offset_reset" : "latest"
+		},
+		"container_events" : {
+			"topic" : "container_events",
+			"group_id" : "beta",
+			"auto_offset_reset" : "earliest"
+		}
+	}
+}
