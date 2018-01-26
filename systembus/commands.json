@@ -1,12 +1,12 @@
 {
-	"command.container.createContainer" : {
+	"createContainer" : {
 		"topic" : "container_commands",
 		"key" : "None",
-		"handler" : "handler.container.createContainer"
+		"handler" : "createContainer"
 	},
-	"command.container.addEnviron" : {
+	"addEnviron" : {
 		"topic" : "container_commands",
 		"key" : "command.container",
-		"handler" : "handler.container.addEnviron"
+		"handler" : "addEnviron"
 	}
 }

@@ -1,12 +1,12 @@
 {
-	"event.container.containerCreated" : {
+	"containerCreated" : {
 		"topic" : "container_events",
 		"key" : "None",
-		"handler" : "handler.notifyUser"
+		"handler" : "notifyUser"
 	},
-	"event.container.environAdded" : {
+	"environAdded" : {
 		"topic" : "container_events",
 		"key" : "None",
-		"handler" : "handler.notifyUser"
+		"handler" : "notifyUser"
 	}
 }
