@@ -41,13 +41,13 @@ async function startProducingCommands() {
     while(msg_no <= MSG_NO_RANGE[1]) {
         var msg = JSON.stringify({
             'uuid' : Math.floor(Math.random() * (6*Math.pow(10,5) - 5*Math.pow(10,5)) + 5*Math.pow(10,5)),
-            'source' : PRODUCER_ID,
+            'source' : PRODUCER_ID, 
             'msg' : msg_no,
             'command_name' : COMMAND_NAME,
         })
 
         payload = {topic: TOPIC_NAME, messages: [msg]};
-        if (KEY == 'None') {payload['key'] = KEY};
+        if (KEY != 'None') {payload['key'] = KEY};
 
         producer.send([payload], 
             function (err, data) {
