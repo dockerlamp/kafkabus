@@ -1,37 +1,41 @@
 var kafka = require('kafka-node');
 
-// test env settings
-var consumer_min_no = 3*Math.pow(10,3);
-    consumer_max_no = 4*Math.pow(10,3); 
-    CONSUMER_ID = Math.floor(Math.random() * (consumer_max_no - consumer_min_no) + consumer_min_no);
+var bus = require("../../systembus/bus.json");
+    commands_cfg = require("../../systembus/commands.json");
 
-// # kafka settings
-var BOOTSTRAP_SERVERS = process.env.BOOTSTRAP_SERVERS
-    TOPIC_NAME = 'example_topic';
+    register = require('./handlers.js').register;
+    command_handlers_registry = register('command_handlers');
 
+
+// kafa consumer specific settings
+var TOPIC_NAME = bus['channels']['container_commands']['topic']
+    BOOTSTRAP_SERVERS = bus['bootstrap_servers']
+    AUTO_OFFSET_RESET = bus['channels']['container_commands']['auto_offset_reset']
+    GROUP_ID = bus['channels']['container_commands']['group_id']
     KAFKA_CONFIG = {
         kafkaHost: BOOTSTRAP_SERVERS,
-        groupId: 'example_group', // use groups for durable queue
-        autoCommit: true, // for groups mode
-        fromOffset: 'earliest', // default latest
+        groupId: GROUP_ID, // use groups for durable queue
+        autoCommit: false, // for groups mode
+        fromOffset: AUTO_OFFSET_RESET, // default latest
     };
 
 
-var topics = [{ topic: TOPIC_NAME }];
-    const client = new kafka.KafkaClient({kafkaHost: BOOTSTRAP_SERVERS});
-    //var consumer = new kafka.Consumer(client, topics, KAFKA_CONFIG);
-    var consumer = new kafka.ConsumerGroup(KAFKA_CONFIG, TOPIC_NAME);
+function startReceivingCommands(){
+    var client = new kafka.KafkaClient({kafkaHost: BOOTSTRAP_SERVERS});
+        consumer = new kafka.ConsumerGroup(KAFKA_CONFIG, TOPIC_NAME);
+        topics = [{ topic: TOPIC_NAME }];
 
-consumer.on('message', function (message) {
-    var value = JSON.parse(message['value'])
-    value['consumer_id'] = CONSUMER_ID;
-    value['partition'] = message['partition'];
-    value['offset'] = message['offset'];
+        consumer.on('message', function (message) {
+            var command = JSON.parse(message['value'])     
+            console.log('received', JSON.stringify(command), 'key', message['key'], 'group_id', GROUP_ID, 'partition', message['partition'], 'offset', message['offset']);
+    
+            var command_name = command['command_name']
+                handler_name = commands_cfg[command_name]['handler']
+            // handle command
+            handler = command_handlers_registry[handler_name]
+            handler(command);
+            consumer.commit(function(err, data) {});
+        });     
+}
 
-    console.log('received', JSON.stringify(value));
-});
-
-consumer.on('error', function (err) {
-  console.log('error', err);
-});
-
+startReceivingCommands()
