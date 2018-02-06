@@ -3,6 +3,9 @@ import uuid
 from copy import deepcopy
 import asyncio
 import json
+import inspect
+import importlib
+import pkgutil
 
 from kafka import KafkaProducer, KafkaConsumer
 
@@ -44,6 +47,20 @@ class CommandBus:
 
     async def register_commands(self, commands_cfg):
         self._commands_cfg = commands_cfg
+
+
+    async def register_handlers(self, handlers_package):
+        self._handlers_registry = {}
+        for _, module_name, _ in pkgutil.iter_modules(handlers_package.__path__):
+            module = importlib.import_module(handlers_package.__name__ + '.' + module_name)
+            for name, handler in inspect.getmembers(module, inspect.isfunction):
+                self._handlers_registry[name] = handler
+
+        return tuple(self._handlers_registry.keys())
+
+
+    async def get_handler(self, name):
+        return self._handlers_registry[name]
 
 
     async def valid(self, command):
