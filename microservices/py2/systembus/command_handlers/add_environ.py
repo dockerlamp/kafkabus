@@ -7,7 +7,7 @@ Created on Jan 26, 2018
 import json
 
 
-def addEnvironHandler(command):
+def addEnvironCommandHandler(command):
     print('handling command', command)
     # TODO do stuff here...
 

@@ -7,7 +7,7 @@ Created on Jan 26, 2018
 import json
 
 
-def addedEnvironHandler(event):
+def addedEnvironEventHandler(event):
     print('handling event', event)
     # TODO do stuff here...
 

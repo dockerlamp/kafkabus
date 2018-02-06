@@ -1,0 +1,26 @@
+{
+	"containerCreatedEvent" : {
+		"topic" : "container_events",
+		"key" : "None",
+		"handler" : "containerCreatedEventHandler",
+		"on_behalf_of" : ["createContainerCommand"]
+	},
+	"addedEnvironEvent" : {
+		"topic" : "container_events",
+		"key" : "None",
+		"handler" : "addedEnvironEventHandler",
+		"on_behalf_of" : ["addEnvironCommand"]
+	},
+	"exposedContainerEvent" : {
+		"topic" : "container_events",
+		"key" : "None",
+		"handler" : "exposedContainerEventHandler",
+		"on_behalf_of" : ["exposeContainerCommand"]
+	},
+	"addedVolumeToContainerEvent" : {
+		"topic" : "container_events",
+		"key" : "None",
+		"handler" : "addedVolumeToContainerEventHandler",
+		"on_behalf_of" : ["addVolumeToContainerCommand"]
+	}
+}

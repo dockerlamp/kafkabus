@@ -7,6 +7,6 @@ Created on Jan 26, 2018
 import json
 
 
-def addedVolumeToContainerHandler(event):
+def addedVolumeToContainerEventHandler(event):
     print('handling event', event)
     # TODO do stuff here...

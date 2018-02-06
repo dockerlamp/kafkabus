@@ -7,6 +7,6 @@ Created on Jan 26, 2018
 import json
 
 
-def createContainerHandler(command):
+def createContainerCommandHandler(command):
     print('handling command', command)
     # TODO do stuff here...

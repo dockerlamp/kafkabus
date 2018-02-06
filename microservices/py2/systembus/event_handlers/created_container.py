@@ -7,6 +7,6 @@ Created on Jan 26, 2018
 import json
 
 
-def createdContainerHandler(event):
+def createdContainerEventHandler(event):
     print('handling event', event)
     # TODO do stuff here...
