@@ -66,7 +66,13 @@ class EventBus:
 
 
     async def send(self, event, validate = True):
-        pass
+        topic_name = self._events_cfg[event['event_name']]['topic']
+        topic_key = self._events_cfg[event['event_name']]['key']
+
+        self.__enter__()
+        EventBus._kafka_producer.send(topic =topic_name, \
+            key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
+                value = bytes(json.dumps(event), 'utf-8'))
 
 
     async def consume_from(self, topic, group):
