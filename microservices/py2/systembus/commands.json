@@ -1,0 +1,22 @@
+{
+	"createContainerCommand" : {
+		"topic" : "container_commands",
+		"key" : "None",
+		"handler" : "createContainerHandler"
+	},
+	"addEnvironCommand" : {
+		"topic" : "container_commands",
+		"key" : "command.container",
+		"handler" : "addEnvironHandler"
+	},
+	"exposeContainerCommand" : {
+		"topic" : "container_commands",
+		"key" : "command.container",
+		"handler" : "exposeContainerHandler"
+	},
+	"addVolumeToContainerCommand" : {
+		"topic" : "container_commands",
+		"key" : "command.container",
+		"handler" : "addVolumeToContainerHandler"
+	}
+}
