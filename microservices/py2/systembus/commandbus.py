@@ -49,7 +49,7 @@ class CommandBus:
         self._commands_cfg = commands_cfg
 
 
-    async def register_handlers(self, handlers_package):
+    async def register_command_handlers(self, handlers_package):
         self._handlers_registry = {}
         for _, module_name, _ in pkgutil.iter_modules(handlers_package.__path__):
             module = importlib.import_module(handlers_package.__name__ + '.' + module_name)
@@ -59,7 +59,7 @@ class CommandBus:
         return tuple(self._handlers_registry.keys())
 
 
-    async def get_handler(self, name):
+    async def get_command_handler(self, name):
         return self._handlers_registry[name]
 
 

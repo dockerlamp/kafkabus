@@ -15,7 +15,7 @@ GROUP = bus_cfg['topics']['container_commands']['group_id']
 async def start_consume_commands():
     with CommandBus(bootstrap_servers = BOOTSTRAP_SERVERS) as cb:
         await cb.register_commands(commands_cfg)
-        await cb.register_handlers(command_handlers)
+        await cb.register_command_handlers(command_handlers)
         consumer = await cb.consume_from(topic = TOPIC, group = GROUP)
 
         for message in consumer:
@@ -24,7 +24,7 @@ async def start_consume_commands():
             # handle stuff
             command_name = command['command_name']
             handler_name = commands_cfg[command_name]['handler']
-            handler = await cb.get_handler(handler_name)
+            handler = await cb.get_command_handler(handler_name)
             handler(command)
 
             consumer.commit()
