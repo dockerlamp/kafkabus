@@ -5,10 +5,11 @@ import asyncio
 import json
 
 from systembus.commandbus import CommandBus
+
+bus_cfg = json.load(open('systembus/bus.json'))
 commands_cfg = json.load(open('systembus/commands.json'))
 
-
-BOOTSTRAP_SERVERS = "172.18.0.2:9092"
+BOOTSTRAP_SERVERS = bus_cfg['bootstrap_servers']
 CMD_RANGE = (10**6, 2*10**6)
 
 

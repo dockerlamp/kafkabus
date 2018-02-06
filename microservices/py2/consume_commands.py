@@ -1,6 +1,3 @@
-import random
-import uuid
-from copy import deepcopy
 import asyncio
 import json
 
@@ -21,6 +18,8 @@ async def start_consume_commands():
         for message in consumer:
             command = json.loads(message.value.decode('utf-8'))
             print('received command', command, 'key', message.key, 'group_id', GROUP, 'partition', message.partition, 'offset', message.offset)
+            # handle stuff
+            consumer.commit()
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_consume_commands())

@@ -38,7 +38,8 @@ class CommandBus:
             CommandBus._kafka_producer = None
 
         if CommandBus._kafka_consumer:
-            pass
+            CommandBus._kafka_consumer.close()
+            CommandBus._kafka_consumer = None
 
 
     async def register_commands(self, commands_cfg):
