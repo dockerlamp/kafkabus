@@ -43,7 +43,7 @@ class EventBus:
             EventBus._kafka_consumer = None
 
 
-    async def register_events(self, events_cfg):
+    def register_events(self, events_cfg):
         self._events_cfg = events_cfg
 
 

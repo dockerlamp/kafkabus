@@ -30,5 +30,5 @@ def addVolumeToContainerCommandHandler(command):
         event = {
             'event_name' : event_name,
         }
-        eb.send(event)
+        await eb.send(event)
         print('emited event', event)
