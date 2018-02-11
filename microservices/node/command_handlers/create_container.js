@@ -5,7 +5,7 @@ var commands_cfg = require("../../../systembus/commands.json");
     emit = require('../event_producer.js').emit;
 
 
-function createContainer(command) {
+function createContainerCommandHandler(command) {
     console.log('handling command', JSON.stringify(command));
     // TODO do stuff here...
 
@@ -22,4 +22,4 @@ function createContainer(command) {
     });
 }
 
-module.exports = {createContainer}
+module.exports = {createContainerCommandHandler}

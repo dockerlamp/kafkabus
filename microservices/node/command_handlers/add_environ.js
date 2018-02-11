@@ -4,7 +4,7 @@ var commands_cfg = require("../../../systembus/commands.json");
 
     emit = require('../event_producer.js').emit;
 
-function addEnviron(command) {
+function addEnvironCommandHandler(command) {
     console.log('handling command', JSON.stringify(command));
     // TODO do stuff here...
 

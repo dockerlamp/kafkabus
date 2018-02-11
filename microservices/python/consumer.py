@@ -14,8 +14,6 @@ from handlers import register
 # system settings
 bus = json.load(open('../../systembus/bus.json'))
 commands_cfg = json.load(open('../../systembus/commands.json'))
-events_cfg = json.load(open('../../systembus/events.json'))
-handlers_cfg = json.load(open('../../systembus/handlers.json'))
 
 
 # kafa consumer specific settings
