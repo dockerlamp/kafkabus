@@ -5,7 +5,6 @@ from kafkabus import KafkaBus
 
 # platform settings
 bus_config = json.load(open('../../../systembus/bus.json'))
-commands_config = json.load(open('../../../systembus/commands.json'))
 
 
 class CommandBus(IBus, KafkaBus):

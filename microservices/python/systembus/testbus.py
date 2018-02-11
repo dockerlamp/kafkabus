@@ -1,3 +1,4 @@
+import json
 from sys import path
 
 path.append('../')
@@ -5,8 +6,12 @@ path.append('../')
 import event_handlers
 from commandbus import CommandBus
 
+# platform settings
+commands_config = json.load(open('../../../systembus/commands.json'))
+
+
 # same object
-cb1 = CommandBus()
+cb1 = CommandBus(commands_config)
 cb2 = CommandBus()
 
 print(cb1, cb2)
