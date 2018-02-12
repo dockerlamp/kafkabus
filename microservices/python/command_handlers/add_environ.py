@@ -8,20 +8,15 @@ import json
 
 from systembus.eventbus import EventBus
 
-# system settings
-events_cfg = json.load(open('../../systembus/events.json'))
 
-
-def addEnvironCommandHandler(command):
+async def addEnvironCommandHandler(command):
     print('handling command', command)
     # TODO do stuff here...
 
-    # get event names to emit
+    # emit events
     command_name = command['command_name']
-    event_names = [event_name for event_name, cfg in events_cfg.items() \
-                                    if command_name in cfg['on_behalf_of']]
-
-    with EventBus(events_config = events_cfg) as eb: 
+    with EventBus() as eb:
+        event_names = await eb.get_event_names_for(command_name)
         for event_name in event_names:
             event = {
                 'event_name' : event_name,

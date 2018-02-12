@@ -3,8 +3,10 @@ import json
 
 import command_handlers
 from systembus.commandbus import CommandBus
+from systembus.eventbus import EventBus
 
 commands_cfg = json.load(open('../../systembus/commands.json'))
+events_cfg = json.load(open('../../systembus/events.json'))
 
 TOPIC = 'container_commands'
 GROUP = 'alfa'
@@ -12,8 +14,8 @@ GROUP = 'alfa'
 
 async def start_consume_commands():
 
+    EventBus(events_config = events_cfg) # init ones
     with CommandBus(commands_config = commands_cfg) as cb:
-
         handlers = cb.load_handlers(command_handlers)
         for name, handler in handlers.items():
             await cb.add_handler(name, handler)
@@ -26,7 +28,7 @@ async def start_consume_commands():
             command_name = command['command_name']
             handler_name = commands_cfg[command_name]['handler']
             handle = await cb.get_handler(handler_name)
-            handle(command)
+            await handle(command)
 
             consumer.commit()
 

@@ -50,3 +50,8 @@ class EventBus(IBus, KafkaBus):
 
     async def get_handler(self, name):
         return self.event_handlers[name]
+
+
+    async def get_event_names_for(self, command_name):
+        return [event_name for event_name, cfg in self.events_config.items() \
+                                    if command_name in cfg['on_behalf_of']]
