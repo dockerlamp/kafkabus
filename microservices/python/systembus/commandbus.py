@@ -55,7 +55,7 @@ class CommandBus(IBus, KafkaBus):
             # command order in kafka not required (send to topic in round robin mode)
             topic_key = None
 
-        await KafkaBus.__aenter__() # ensure kafka producer is ready
+        KafkaBus.__enter__() # ensure kafka producer is ready
         KafkaBus._producer.send(topic = topic_name, key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
             value = bytes(json.dumps(command_), 'utf-8'))
 
