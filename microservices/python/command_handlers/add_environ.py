@@ -6,12 +6,9 @@ Created on Jan 26, 2018
 
 import json
 
-from kafka import KafkaProducer
-
-import event_producer
+from systembus.eventbus import EventBus
 
 # system settings
-commands_cfg = json.load(open('../../systembus/commands.json'))
 events_cfg = json.load(open('../../systembus/events.json'))
 
 
@@ -23,9 +20,11 @@ def addEnvironCommandHandler(command):
     command_name = command['command_name']
     event_names = [event_name for event_name, cfg in events_cfg.items() \
                                     if command_name in cfg['on_behalf_of']]
-    for event_name in event_names:
-        event = {
-            'event_name' : event_name,
-        }
-        event_producer.emit(event_name, event)
-        print('emited event', event)
+
+    with EventBus(events_config = events_cfg) as eb: 
+        for event_name in event_names:
+            event = {
+                'event_name' : event_name,
+            }
+            eb.send(event)
+            print('event emited', event)

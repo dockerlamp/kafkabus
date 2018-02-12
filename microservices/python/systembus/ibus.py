@@ -17,3 +17,9 @@ class IBus(ABC):
     async def add_handler(self, name, handler):
         pass
 
+
+    @abstractmethod
+    async def get_handler(self, name):
+        pass
+
+

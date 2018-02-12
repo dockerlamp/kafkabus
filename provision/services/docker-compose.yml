@@ -18,7 +18,7 @@ services:
     volumes:
       - ../..:/app
     working_dir: /app/microservices/python
-    command: sh -c "python watch.py python producer.py"
+    command: sh -c "python watch.py python produce_commands.py"
     restart: unless-stopped
     links: 
       - kafka
@@ -28,7 +28,7 @@ services:
     volumes:
       - ../..:/app
     working_dir: /app/microservices/python
-    command: sh -c "python watch.py python consumer.py"
+    command: sh -c "python watch.py python consume_commands.py"
     restart: unless-stopped
     links:
       - kafka
