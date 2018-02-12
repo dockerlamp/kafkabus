@@ -6,12 +6,12 @@ path.append('../')
 
 import event_handlers
 import command_handlers
-from commandbus import CommandBus
-from eventbus import EventBus
+from .commandbus import CommandBus
+from .eventbus import EventBus
 
 # platform settings
-commands_config = json.load(open('../../../systembus/commands.json'))
-events_config = json.load(open('../../../systembus/events.json'))
+commands_config = json.load(open('../../systembus/commands.json'))
+events_config = json.load(open('../../systembus/events.json'))
 
 
 with CommandBus(commands_config) as cb1, CommandBus() as cb2, EventBus(events_config) as eb:

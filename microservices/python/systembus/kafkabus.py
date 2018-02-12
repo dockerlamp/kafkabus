@@ -7,7 +7,7 @@ import json
 
 from kafka import KafkaProducer, KafkaConsumer
 
-from ibus import IBus
+from .ibus import IBus
 
 
 class KafkaBus:

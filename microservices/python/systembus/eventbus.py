@@ -1,10 +1,10 @@
 import json
 
-from ibus import IBus
-from kafkabus import KafkaBus
+from .ibus import IBus
+from .kafkabus import KafkaBus
 
 # platform settings
-bus_config = json.load(open('../../../systembus/bus.json'))
+bus_config = json.load(open('../../systembus/bus.json'))
 
 
 class EventBus(IBus, KafkaBus):
@@ -33,16 +33,16 @@ class EventBus(IBus, KafkaBus):
 
 
     async def send(self, event):
-        topic_name = self.command_handlers[event['command_name']]['topic']
-        topic_key = self.command_handlers[event['command_name']]['key']
+        topic_name = self.events_config[event['event_name']]['topic']
+        topic_key = self.events_config[event['event_name']]['key']
         topic_key = None if topic_key == 'None' else topic_key 
 
-        KafkaBus.__enter__() # ensure kafka producer is ready
-        KafkaBus._producer.send(topic = topic_name, key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
+        self.__enter__() # ensure kafka producer is ready
+        self._producer.send(topic = topic_name, key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
             value = bytes(json.dumps(event), 'utf-8'))
         return
 
 
     async def consume_from(self, topic, group):
         # TODO use "channels" attrib from bus.json instead of topic and group?
-        return await KafkaBus._get_consumer((topic, group))
+        return await self._get_consumer(topic, group)

@@ -3,11 +3,11 @@ import uuid
 import random
 from copy import deepcopy
 
-from ibus import IBus
-from kafkabus import KafkaBus
+from .ibus import IBus
+from .kafkabus import KafkaBus
 
 # platform settings
-bus_config = json.load(open('../../../systembus/bus.json'))
+bus_config = json.load(open('../../systembus/bus.json'))
 
 OBJECT_ID = random.randint(8*10**5, 9*10**5)
 
@@ -42,8 +42,8 @@ class CommandBus(IBus, KafkaBus):
         uuid_ = str(uuid.uuid4())
         command_['uuid'] = uuid_
 
-        topic_name = self.command_handlers[command_['command_name']]['topic']
-        topic_key = self.command_handlers[command_['command_name']]['key']
+        topic_name = self.commands_config[command_['command_name']]['topic']
+        topic_key = self.commands_config[command_['command_name']]['key']
 
         if topic_key != 'None':
             # command must be send with key to keep send order in kafka
@@ -55,8 +55,8 @@ class CommandBus(IBus, KafkaBus):
             # command order in kafka not required (send to topic in round robin mode)
             topic_key = None
 
-        KafkaBus.__enter__() # ensure kafka producer is ready
-        KafkaBus._producer.send(topic = topic_name, key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
+        self.__enter__() # ensure kafka producer is ready
+        self._producer.send(topic = topic_name, key = bytes(topic_key, 'utf-8') if topic_key else topic_key,\
             value = bytes(json.dumps(command_), 'utf-8'))
 
         return uuid_
@@ -64,4 +64,4 @@ class CommandBus(IBus, KafkaBus):
 
     async def consume_from(self, topic, group):
         # TODO use "channels" attrib from bus.json intead of topic and group?
-        return await KafkaBus._get_consumer((topic, group))
+        return await self._get_consumer(topic, group)
