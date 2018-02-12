@@ -20,13 +20,13 @@ class KafkaBus:
         self.bus_config = bus_config
 
 
-    async def __aenter__(self):
-        if not KafkaBus._kafka_producer:
-            KafkaBus._kafka_producer = KafkaProducer(bootstrap_servers = self.bus_config['bootstrap_servers'])
+    def __enter__(self):
+        if not KafkaBus._producer:
+            KafkaBus._producer = KafkaProducer(bootstrap_servers = self.bus_config['bootstrap_servers'])
         return self
 
 
-    async def __aexit__(self, type, value, traceback):
+    def __exit__(self, type, value, traceback):
         if KafkaBus._producer:
             KafkaBus._producer.flush()
 
