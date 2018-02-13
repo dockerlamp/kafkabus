@@ -8,8 +8,7 @@ from systembus.eventbus import EventBus
 commands_cfg = json.load(open('../../systembus/commands.json'))
 events_cfg = json.load(open('../../systembus/events.json'))
 
-TOPIC = 'container_commands'
-GROUP = 'alfa'
+channel = 'container_commands'
 
 
 async def start_consume_commands():
@@ -20,10 +19,10 @@ async def start_consume_commands():
         for name, handler in handlers.items():
             await cb.add_handler(name, handler)
 
-        consumer = await cb.consume_from(topic = TOPIC, group = GROUP)
+        consumer = await cb.consume_from(channel)
         for message in consumer:
             command = json.loads(message.value.decode('utf-8'))
-            print('received command', command, 'key', message.key, 'group_id', GROUP, 'partition', message.partition, 'offset', message.offset)
+            print('received command', command, 'channel', channel, 'key', message.key, 'partition', message.partition, 'offset', message.offset)
             # handle stuff
             command_name = command['command_name']
             handler_name = commands_cfg[command_name]['handler']

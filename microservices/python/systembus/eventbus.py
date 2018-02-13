@@ -43,9 +43,8 @@ class EventBus(IBus, KafkaBus):
         return
 
 
-    async def consume_from(self, topic, group):
-        # TODO use "channels" attrib from bus.json instead of topic and group?
-        return await self._get_consumer(topic, group)
+    async def consume_from(self,channel_name):
+        return await self._get_consumer(channel_name)
 
 
     async def get_handler(self, name):

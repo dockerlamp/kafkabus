@@ -4,12 +4,15 @@
 		"container_commands" : {
 			"topic" : "container_commands",
 			"group_id" : "alfa",
-			"auto_offset_reset" : "latest"
+			"auto_offset_reset" : "earliest"
 		},
 		"container_events" : {
 			"topic" : "container_events",
 			"group_id" : "beta",
 			"auto_offset_reset" : "earliest"
 		}
+	},
+	"producer" : {
+		"put_here_kafka_specific_settings" : "not implemented yet in systembus, default settings seems to be ok for now"
 	}
 }

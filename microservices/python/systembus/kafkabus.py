@@ -31,9 +31,13 @@ class KafkaBus:
             KafkaBus._producer.flush()
 
 
-    async def _get_consumer(self, topic, group):
-        if (topic, group) not in self._consumers:
-            new_consumer = KafkaConsumer(bootstrap_servers = self.bus_config['bootstrap_servers'], group_id = group)
+    async def _get_consumer(self, channel_name):
+        if channel_name not in self._consumers:
+            topic = self.bus_config["channels"][channel_name]["topic"]
+            group = self.bus_config["channels"][channel_name]["group_id"]
+            offset = self.bus_config["channels"][channel_name]["auto_offset_reset"]
+
+            new_consumer = KafkaConsumer(bootstrap_servers = self.bus_config['bootstrap_servers'], group_id = group, auto_offset_reset = offset)
             new_consumer.subscribe(topics = [topic])
             self._consumers[(topic, group)] = new_consumer
         return self._consumers[(topic, group)]
