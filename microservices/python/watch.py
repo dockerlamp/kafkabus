@@ -59,4 +59,4 @@ while True:
         print('watcher: ended')
         sys.exit()
     time.sleep(wait)
-    
+
